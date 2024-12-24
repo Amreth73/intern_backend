@@ -38,6 +38,14 @@ public class MessageController {
         messageService.sendMessage(sender, receiver, messageDto.getContent());
     }
 
+    @PostMapping("/api/messages/bulk")
+public void sendBulkMessages(@RequestBody List<MessageDto> messagesDto) {
+    messagesDto.forEach(messageDto -> {
+        EpollUsers sender = userService.getUserById(messageDto.getSenderId());
+        EpollUsers receiver = userService.getUserById(messageDto.getReceiverId());
+        messageService.sendMessage(sender, receiver, messageDto.getContent());
+    });
+}
     @Getter
     @Setter
     public static class MessageDto {
